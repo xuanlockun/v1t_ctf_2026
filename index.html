@@ -57,6 +57,58 @@
             backdrop-filter: blur(10px);
         }
 
+        .page-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(2, 4, 10, 0.78);
+            backdrop-filter: blur(14px);
+        }
+
+        .page-modal[hidden] {
+            display: none;
+        }
+
+        .modal-card {
+            width: min(100%, 520px);
+            padding: 32px 28px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: linear-gradient(180deg, rgba(10, 18, 28, 0.96), rgba(7, 10, 14, 0.96));
+            box-shadow: 0 0 48px rgba(0, 212, 255, 0.14);
+            text-align: center;
+        }
+
+        .modal-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.7rem;
+            letter-spacing: 3px;
+            margin-bottom: 14px;
+            color: #fff36b;
+        }
+
+        .modal-card p {
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: nowrap;
+            align-items: stretch;
+        }
+
+        .modal-actions .btn {
+            padding: 14px 20px;
+        }
+
         .logo-wrapper {
             position: relative;
             width: 180px;
@@ -99,6 +151,28 @@
             overflow: hidden;
         }
 
+        .btn-featured {
+            border: 2px solid #fff36b;
+            background: linear-gradient(135deg, rgba(255, 243, 107, 0.12), rgba(0, 212, 255, 0.08));
+            box-shadow: 0 0 24px rgba(255, 243, 107, 0.18), inset 0 0 20px rgba(255, 243, 107, 0.08);
+        }
+
+        .btn-featured .year {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+            color: #fff36b;
+            text-shadow: 0 0 16px rgba(255, 243, 107, 0.55);
+        }
+
+        .btn-featured .status {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.82rem;
+            letter-spacing: 1.5px;
+            color: #ffffff;
+        }
+
         .btn-main {
             border: 2px solid var(--neon-blue);
             background: rgba(0, 212, 255, 0.05);
@@ -121,6 +195,31 @@
             background: var(--neon-purple);
             color: #fff;
             box-shadow: 0 0 40px var(--neon-purple);
+        }
+
+        .btn-dismiss {
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.04);
+            cursor: pointer;
+        }
+
+        .modal-actions .btn {
+            flex: 1 1 0;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .modal-actions .btn-dismiss {
+            flex-direction: row;
+        }
+
+        .btn-dismiss:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 24px rgba(255, 255, 255, 0.08);
         }
 
         .btn span {
@@ -151,11 +250,68 @@
             border-radius: 2px;
             color: white;
         }
+
+        @media (max-width: 640px) {
+            .main-frame {
+                width: calc(100% - 32px);
+                padding: 28px 18px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+                letter-spacing: 3px;
+            }
+
+            .btn {
+                padding: 16px 20px;
+            }
+
+            .btn-featured .year {
+                font-size: 1.1rem;
+                letter-spacing: 3px;
+            }
+
+            .btn-featured .status {
+                font-size: 0.74rem;
+                letter-spacing: 1px;
+            }
+
+            .modal-card {
+                padding: 26px 18px;
+            }
+
+            .modal-card h3 {
+                font-size: 1.3rem;
+                letter-spacing: 2px;
+            }
+
+            .modal-actions {
+                flex-wrap: wrap;
+            }
+
+            .modal-actions .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="bg-overlay"></div>
+    <div class="page-modal" id="redirect-modal" role="dialog" aria-modal="true" aria-labelledby="redirect-title">
+        <div class="modal-card">
+            <h3 id="redirect-title">Go To 2026 Event?</h3>
+            <p>Do you want to redirect to <strong>2026.v1t.site</strong> for the V1T CTF 2026 event page?</p>
+            <div class="modal-actions">
+                <a href="https://2026.v1t.site" class="btn btn-featured">
+                    <span class="year">GO to V1t CTF 2026</span>
+                </a>
+                <button type="button" class="btn btn-dismiss" id="stay-here">
+                    <span>Stay Here</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <div class="main-frame">
         <div class="logo-wrapper">
@@ -166,6 +322,11 @@
         <h2>Coming soon</h2>
         <br><br>
         <div class="btn-container">
+            <a href="https://2026.v1t.site" class="btn btn-featured" aria-label="V1T CTF 2026 early access status">
+                <span class="year">2026 Event</span>
+                <span class="status">Early access registration is not open yet</span>
+            </a>
+
             <a href="https://v1t.site" class="btn btn-main">
                 <span>⚡ Main Website [v1t.site]</span>
             </a>
@@ -175,6 +336,14 @@
             </a>
         </div>
     </div>
+    <script>
+        const redirectModal = document.getElementById('redirect-modal');
+        const stayHereButton = document.getElementById('stay-here');
+
+        stayHereButton.addEventListener('click', () => {
+            redirectModal.hidden = true;
+        });
+    </script>
 </body>
 
 </html>
