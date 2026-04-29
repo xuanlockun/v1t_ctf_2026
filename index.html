@@ -4,17 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V1t CTF 2026 </title>
+    <title>V1T CTF 2026 - Quack Quack!</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400&display=swap"
-        rel="stylesheet">
+    <!-- Lấy phông chữ 8-bit và phông bo tròn dễ thương -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka+One&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --neon-blue: #00d4ff;
-            --neon-purple: #bc13fe;
-            --bg-dark: #050508;
+            --duck-yellow: #FFCA28;
+            --duck-light: #FFFDE7;
+            --duck-card: #FFF9C4;
+            --duck-orange: #FF9800;
+            --duck-dark-orange: #E65100;
+            --duck-brown: #5D4037;
+            --duck-border: #2d2d2d;
+            --duck-red: #FF5252;
         }
 
         * {
@@ -24,37 +29,50 @@
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: #fff;
-            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--duck-light);
+            color: var(--duck-brown);
+            font-family: 'Comic Sans MS', 'Fredoka One', cursive, sans-serif;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
         }
 
+        /* Nền chấm bi Vịt chuẩn retro */
         .bg-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
+            background-image: radial-gradient(#FFD54F 15%, transparent 16%), radial-gradient(#FFD54F 15%, transparent 16%);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
             z-index: 1;
             pointer-events: none;
+            opacity: 0.6;
         }
 
+        /* Khung nội dung chính */
         .main-frame {
             text-align: center;
             z-index: 10;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            background: var(--duck-card);
+            border: 5px dashed var(--duck-orange);
+            border-radius: 25px;
+            box-shadow: 12px 12px 0 var(--duck-yellow);
+            max-width: 600px;
+            width: 90%;
+            animation: floatSway 4s ease-in-out infinite;
+        }
+
+        /* Lắc lư nhè nhẹ */
+        @keyframes floatSway {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
         }
 
         .page-modal {
@@ -65,8 +83,8 @@
             align-items: center;
             justify-content: center;
             padding: 24px;
-            background: rgba(2, 4, 10, 0.78);
-            backdrop-filter: blur(14px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
         }
 
         .page-modal[hidden] {
@@ -75,239 +93,219 @@
 
         .modal-card {
             width: min(100%, 520px);
-            padding: 32px 28px;
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: linear-gradient(180deg, rgba(10, 18, 28, 0.96), rgba(7, 10, 14, 0.96));
-            box-shadow: 0 0 48px rgba(0, 212, 255, 0.14);
+            padding: 35px 30px;
+            border-radius: 20px;
+            border: 4px solid var(--duck-border);
+            background-color: var(--duck-light);
+            box-shadow: 10px 10px 0 var(--duck-orange);
             text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .modal-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.7rem;
-            letter-spacing: 3px;
-            margin-bottom: 14px;
-            color: #fff36b;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: var(--duck-dark-orange);
+            text-shadow: 2px 2px 0 var(--duck-yellow);
         }
 
         .modal-card p {
-            color: rgba(255, 255, 255, 0.82);
+            color: var(--duck-brown);
+            font-size: 1.1rem;
+            font-weight: bold;
             line-height: 1.6;
-            margin-bottom: 24px;
+            margin-bottom: 25px;
         }
 
         .modal-actions {
             display: flex;
             justify-content: center;
-            gap: 14px;
+            gap: 15px;
             flex-wrap: nowrap;
             align-items: stretch;
         }
 
-        .modal-actions .btn {
-            padding: 14px 20px;
-        }
-
         .logo-wrapper {
             position: relative;
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 30px;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
         }
 
         .logo-img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 0 20px var(--neon-blue));
-            animation: pulse 3s ease-in-out infinite;
+            image-rendering: pixelated;
+            filter: drop-shadow(0 8px 0 rgba(230, 81, 0, 0.2));
+            animation: duckBounce 1.5s infinite;
+        }
+
+        @keyframes duckBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px) scale(1.05); }
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            letter-spacing: 5px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px var(--neon-blue);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            color: var(--duck-dark-orange);
+            text-shadow: 3px 3px 0 #FFF, 5px 5px 0 var(--duck-yellow);
+        }
+
+        h2 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: var(--duck-orange);
+            margin-bottom: 10px;
         }
 
         .btn-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
+            margin-top: 10px;
         }
 
+        /* Style Nút bấm chung */
         .btn {
             text-decoration: none;
-            color: #fff;
-            padding: 18px 40px;
-            font-weight: bold;
-            letter-spacing: 2px;
+            color: var(--duck-border);
+            padding: 15px 20px;
+            font-weight: 900;
+            font-size: 14px;
+            font-family: 'Press Start 2P', monospace;
             text-transform: uppercase;
-            transition: 0.4s;
+            border-radius: 12px;
+            border: 3px solid var(--duck-border);
             position: relative;
-            border-radius: 4px;
-            overflow: hidden;
+            transition: all 0.1s ease;
+            box-shadow: 4px 4px 0 var(--duck-border);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
+        .btn:active {
+            transform: translateY(4px) translateX(4px);
+            box-shadow: 0 0 0 var(--duck-border) !important;
+        }
+
+        /* Nút Event 2026 */
         .btn-featured {
-            border: 2px solid #fff36b;
-            background: linear-gradient(135deg, rgba(255, 243, 107, 0.12), rgba(0, 212, 255, 0.08));
-            box-shadow: 0 0 24px rgba(255, 243, 107, 0.18), inset 0 0 20px rgba(255, 243, 107, 0.08);
+            background-color: var(--duck-orange);
+            color: #FFF;
+        }
+        .btn-featured:hover {
+            background-color: var(--duck-dark-orange);
+            box-shadow: 4px 4px 0 var(--duck-brown);
         }
 
         .btn-featured .year {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            letter-spacing: 4px;
-            color: #fff36b;
-            text-shadow: 0 0 16px rgba(255, 243, 107, 0.55);
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0 var(--duck-border);
         }
 
         .btn-featured .status {
-            display: block;
-            margin-top: 8px;
-            font-size: 0.82rem;
-            letter-spacing: 1.5px;
-            color: #ffffff;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 12px;
+            text-transform: none;
+            font-weight: bold;
+            color: #FFFDE7;
         }
 
+        /* Nút Main Website */
         .btn-main {
-            border: 2px solid var(--neon-blue);
-            background: rgba(0, 212, 255, 0.05);
-            box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.1);
+            background-color: var(--duck-yellow);
         }
-
         .btn-main:hover {
-            background: var(--neon-blue);
-            color: #000;
-            box-shadow: 0 0 40px var(--neon-blue);
+            background-color: #FFD54F;
+            box-shadow: 4px 4px 0 var(--duck-brown);
         }
 
+        /* Nút Archive 2025 */
         .btn-archive {
-            border: 2px solid var(--neon-purple);
-            background: rgba(188, 19, 254, 0.05);
-            box-shadow: inset 0 0 15px rgba(188, 19, 254, 0.1);
+            background-color: #E0E0E0;
+            color: var(--duck-brown);
         }
-
         .btn-archive:hover {
-            background: var(--neon-purple);
-            color: #fff;
-            box-shadow: 0 0 40px var(--neon-purple);
+            background-color: #BDBDBD;
         }
 
+        /* Nút Tắt Modal */
         .btn-dismiss {
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            background: rgba(255, 255, 255, 0.04);
-            cursor: pointer;
+            background-color: var(--duck-red);
+            color: #FFF;
+            flex-direction: row;
+        }
+        .btn-dismiss:hover {
+            background-color: #D50000;
         }
 
         .modal-actions .btn {
             flex: 1 1 0;
             min-width: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            font-size: 11px;
+            padding: 12px;
         }
 
-        .modal-actions .btn-dismiss {
-            flex-direction: row;
-        }
-
-        .btn-dismiss:hover {
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 24px rgba(255, 255, 255, 0.08);
-        }
-
-        .btn span {
-            position: relative;
-            z-index: 2;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 20px var(--neon-blue));
-            }
-
-            50% {
-                transform: scale(1.05);
-                filter: drop-shadow(0 0 40px var(--neon-blue));
-            }
+        .modal-actions .btn-featured .year {
+            margin-bottom: 0;
+            font-size: 11px;
         }
 
         .v-badge {
-            background: var(--neon-purple);
-            font-size: 0.6rem;
-            padding: 2px 6px;
+            background: var(--duck-border);
+            color: var(--duck-yellow);
+            font-size: 8px;
+            padding: 4px 6px;
             vertical-align: middle;
-            margin-left: 10px;
-            border-radius: 2px;
-            color: white;
+            margin-left: 8px;
+            border-radius: 4px;
         }
 
         @media (max-width: 640px) {
             .main-frame {
-                width: calc(100% - 32px);
-                padding: 28px 18px;
+                padding: 30px 20px;
+                border-width: 4px;
             }
-
-            h1 {
-                font-size: 2.2rem;
-                letter-spacing: 3px;
-            }
-
-            .btn {
-                padding: 16px 20px;
-            }
-
-            .btn-featured .year {
-                font-size: 1.1rem;
-                letter-spacing: 3px;
-            }
-
-            .btn-featured .status {
-                font-size: 0.74rem;
-                letter-spacing: 1px;
-            }
-
-            .modal-card {
-                padding: 26px 18px;
-            }
-
-            .modal-card h3 {
-                font-size: 1.3rem;
-                letter-spacing: 2px;
-            }
-
-            .modal-actions {
-                flex-wrap: wrap;
-            }
-
-            .modal-actions .btn {
-                width: 100%;
-            }
+            h1 { font-size: 1.3rem; }
+            h2 { font-size: 1.2rem; }
+            .btn { padding: 12px; font-size: 11px; }
+            .btn-featured .year { font-size: 11px; }
+            .btn-featured .status { font-size: 10px; }
+            .logo-wrapper { width: 100px; height: 100px; }
+            .modal-actions { flex-direction: column; }
+            .modal-actions .btn { width: 100%; }
         }
     </style>
 </head>
 
 <body>
     <div class="bg-overlay"></div>
+    
     <div class="page-modal" id="redirect-modal" role="dialog" aria-modal="true" aria-labelledby="redirect-title">
         <div class="modal-card">
-            <h3 id="redirect-title">Go To 2026 Event?</h3>
+            <h3 id="redirect-title">QUACK! GO TO 2026?</h3>
             <p>Do you want to redirect to <strong>2026.v1t.site</strong> for the V1T CTF 2026 event page?</p>
             <div class="modal-actions">
                 <a href="https://2026.v1t.site" class="btn btn-featured">
-                    <span class="year">GO to V1t CTF 2026</span>
+                    <span class="year">YES, TAKE ME!</span>
                 </a>
                 <button type="button" class="btn btn-dismiss" id="stay-here">
-                    <span>Stay Here</span>
+                    <span>STAY HERE</span>
                 </button>
             </div>
         </div>
@@ -315,27 +313,29 @@
 
     <div class="main-frame">
         <div class="logo-wrapper">
+            <!-- Đổi v1t.png thành file logo vịt thật của Boss -->
             <img src="v1t.png" alt="V1t Logo" class="logo-img">
         </div>
 
         <h1>V1T CTF 2026</h1>
-        <h2>Coming soon</h2>
-        <br><br>
+        <h2>🍞 Coming soon 🍞</h2>
+        <br>
         <div class="btn-container">
             <a href="https://2026.v1t.site" class="btn btn-featured" aria-label="V1T CTF 2026 early access status">
-                <span class="year">2026 Event</span>
+                <span class="year">2026 EVENT</span>
                 <span class="status">Early access registration is not open yet</span>
             </a>
 
             <a href="https://v1t.site" class="btn btn-main">
-                <span>⚡ Main Website [v1t.site]</span>
+                <span>MAIN WEBSITE</span>
             </a>
 
             <a href="https://2025.v1t.site" class="btn btn-archive">
-                <span>📂 V1t 2025 Archive <span class="v-badge">LEGACY</span></span>
+                <span>V1T 2025 <span class="v-badge">LEGACY</span></span>
             </a>
         </div>
     </div>
+    
     <script>
         const redirectModal = document.getElementById('redirect-modal');
         const stayHereButton = document.getElementById('stay-here');
